@@ -14,6 +14,7 @@ defmodule SampleTelepathy do
       supervisor(SampleTelepathy.Endpoint, []),
       # Start your own worker by calling: SampleTelepathy.Worker.start_link(arg1, arg2, arg3)
       # worker(SampleTelepathy.Worker, [arg1, arg2, arg3]),
+      worker(CitiesListener, [Application.get_env(:sample_telepathy, SampleTelepathy.Repo)]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
