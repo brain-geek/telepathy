@@ -17,3 +17,4 @@ config :sample_telepathy, SampleTelepathy.Repo,
   database: "sample_telepathy_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+  

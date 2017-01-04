@@ -29,7 +29,7 @@ defmodule Telepathy.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:postgrex, "~>0.12.1"},
+      {:postgrex, ">= 0.12.1"},
       {:poison, "~> 3.0"},
     ]
   end
