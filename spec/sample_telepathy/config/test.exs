@@ -15,6 +15,4 @@ config :sample_telepathy, SampleTelepathy.Repo,
   username: "postgres",
   password: "postgres",
   database: "sample_telepathy_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
-  
+  hostname: "localhost"
