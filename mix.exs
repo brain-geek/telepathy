@@ -5,6 +5,7 @@ defmodule Telepathy.Mixfile do
     [app: :telepathy,
      version: "0.1.0",
      elixir: "~> 1.3",
+     preferred_cli_env: [espec: :test],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -31,6 +32,7 @@ defmodule Telepathy.Mixfile do
     [
       {:postgrex, ">= 0.12.1"},
       {:poison, "~> 3.0"},
+      {:espec, "~> 1.2.1", only: :test},
     ]
   end
 end

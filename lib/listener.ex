@@ -22,19 +22,11 @@ defmodule Telepathy.Listener do
         {:ok, pg_pid}    = Postgrex.start_link(db_connection)
         {:ok, notif_pid} = Postgrex.Notifications.start_link(db_connection)
 
-        queries = ["sql/function.sql.eex", "sql/drop_trigger.sql.eex", "sql/create_trigger.sql.eex"]
+        the_query = Telepathy.ListenerQueries.eventstream_query table_name: @table_name, trigger_name: trigger_name, channel_name: channel_name
+        queries = String.split the_query, ";"
 
-        queries |> Enum.each(fn(file) -> 
-          query = EEx.eval_file(file, 
-            [
-              channel_name: channel_name, 
-              trigger_name: trigger_name, 
-              table_name: @table_name
-            ]
-          )
-
+        queries |> Enum.each(fn(query) -> 
           {:ok, _} = Postgrex.query pg_pid, query, []
-
         end)
 
         Postgrex.Notifications.listen(notif_pid, "cities")
