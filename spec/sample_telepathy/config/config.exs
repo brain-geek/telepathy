@@ -5,6 +5,13 @@
 # is restricted to this project.
 use Mix.Config
 
+config :sample_telepathy, SampleTelepathy.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "sample_telepathy_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
+
 # General application configuration
 config :sample_telepathy,
   ecto_repos: [SampleTelepathy.Repo]
