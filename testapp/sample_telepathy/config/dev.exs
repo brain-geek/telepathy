@@ -25,7 +25,4 @@ config :phoenix, :stacktrace_depth, 20
 config :sample_telepathy, SampleTelepathy.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
-  database: "sample_telepathy_dev",
-  hostname: "localhost",
-  pool_size: 10
+  database: "sample_telepathy_dev"

@@ -13,6 +13,4 @@ config :logger, level: :warn
 config :sample_telepathy, SampleTelepathy.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
-  database: "sample_telepathy_test",
-  hostname: "localhost"
+  database: "sample_telepathy_test"

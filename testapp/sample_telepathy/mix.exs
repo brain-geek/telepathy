@@ -9,7 +9,7 @@ defmodule SampleTelepathy.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     preferred_cli_env: [espec: :test],
+     preferred_cli_env: [espec: :test, "ecto.setup.ci": :test],
      aliases: aliases(),
      deps: deps()]
   end
@@ -50,6 +50,9 @@ defmodule SampleTelepathy.Mixfile do
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
-    ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"]]
+    [
+      "ecto.setup.ci": ["ecto.create", "ecto.migrate"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"]
+    ]
   end
 end
