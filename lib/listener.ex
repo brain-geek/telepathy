@@ -48,14 +48,12 @@ defmodule Telepathy.Listener do
       end
 
       def handle_cast({"DELETE", msg = %{}}, state) do
-        
-        
+        handle_delete(msg["old_data"], state)
         {:noreply, state}
       end
 
       def handle_cast({"UPDATE", msg = %{}}, state) do
-        
-        
+        handle_update(msg["old_data"], msg["new_data"], state)
         {:noreply, state}
       end
 

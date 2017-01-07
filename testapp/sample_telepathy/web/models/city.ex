@@ -14,6 +14,6 @@ defmodule SampleTelepathy.City do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :country])
-    |> validate_required([:name, :country])
+    |> validate_required([:name])
   end
 end

@@ -7,7 +7,9 @@ defmodule SampleTelepathy.CitiesListener do
   end
 
   def handle_delete(old, state) do
+    SampleTelepathy.CitiesListenerAgent.push_message(:delete, old)
     
+    {:noreply, state}
   end
 
   def handle_insert(new, state) do

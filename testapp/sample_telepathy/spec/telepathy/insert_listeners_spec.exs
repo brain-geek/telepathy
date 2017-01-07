@@ -1,4 +1,4 @@
-defmodule SampleTelepathy.SimpleListenOperationsSpec do
+defmodule SampleTelepathy.SimpleInsertSpec do
   use ESpec
   alias SampleTelepathy.{City,Repo,CitiesListenerAgent}
 
