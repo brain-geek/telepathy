@@ -7,7 +7,7 @@ ESpec.configure fn(config) ->
     # Cleanup
     Repo.delete_all SampleTelepathy.City
 
-    {:shared, hello: :world}
+    {:shared, hello: :world, tags: tags}
   end
 
   config.finally fn(_shared) ->

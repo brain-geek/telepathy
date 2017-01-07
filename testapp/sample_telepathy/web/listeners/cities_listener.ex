@@ -1,4 +1,4 @@
-defmodule CitiesListener do
+defmodule SampleTelepathy.CitiesListener do
   require IEx
   use Telepathy.Listener, table_name: "cities"
 
@@ -11,8 +11,7 @@ defmodule CitiesListener do
   end
 
   def handle_insert(new, state) do
-    IO.puts "Received an update"
-    IO.inspect new
+    SampleTelepathy.CitiesListenerAgent.push_message(:insert, new)
     
     {:noreply, state}
   end

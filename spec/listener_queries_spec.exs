@@ -8,7 +8,7 @@ defmodule Telepathy.ListenerQueriesSpec do
 
     let :params, do: [table_name: table_name, trigger_name: trigger_name, channel_name: channel_name]
 
-    subject do: described_module.eventstream_query(params)
+    subject do: Enum.reduce(described_module.eventstream_query(params), &(&1 <> &2))
 
     describe "explicit function_name" do
       let :function_name, do: "notify_telepathy_channel_one"

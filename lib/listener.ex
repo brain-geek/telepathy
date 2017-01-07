@@ -22,16 +22,13 @@ defmodule Telepathy.Listener do
         {:ok, pg_pid}    = Postgrex.start_link(db_connection)
         {:ok, notif_pid} = Postgrex.Notifications.start_link(db_connection)
 
-        the_query = Telepathy.ListenerQueries.eventstream_query table_name: @table_name, trigger_name: trigger_name, channel_name: channel_name
-        queries = String.split the_query, ";"
+        queries = Telepathy.ListenerQueries.eventstream_query table_name: @table_name, trigger_name: trigger_name, channel_name: channel_name
 
         queries |> Enum.each(fn(query) -> 
           {:ok, _} = Postgrex.query pg_pid, query, []
         end)
 
         Postgrex.Notifications.listen(notif_pid, "cities")
-
-        IO.puts "started"
 
         {:ok, %{notif_pid: notif_pid, pg_pid: pg_pid}}
       end

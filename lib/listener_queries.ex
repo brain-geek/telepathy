@@ -4,9 +4,9 @@ defmodule Telepathy.ListenerQueries do
   def eventstream_query(table_name: table_name, trigger_name: trigger_name, channel_name: channel_name) do
     function_name = "notify_telepathy_" <> channel_name
 
-    function_template(channel_name: channel_name, function_name: function_name) <>
-      drop_trigger_template(trigger_name: trigger_name, table_name: table_name) <>
-      create_trigger_template(trigger_name: trigger_name, table_name: table_name, function_name: function_name)
+    [function_template(channel_name: channel_name, function_name: function_name),
+      drop_trigger_template(trigger_name: trigger_name, table_name: table_name),
+      create_trigger_template(trigger_name: trigger_name, table_name: table_name, function_name: function_name)]
   end
 
   embed_template :create_trigger, """
