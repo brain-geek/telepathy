@@ -57,7 +57,7 @@ defmodule SampleTelepathy.UpdateListenerSpec do
 
         case value do
           %NaiveDateTime{} -> 
-            expect(old_message[k]).to eq(NaiveDateTime.to_iso8601(value))
+            expect(NaiveDateTime.to_iso8601(value)).to have(old_message[k])
           _ -> 
             expect(old_message[k]).to eq(value)
         end

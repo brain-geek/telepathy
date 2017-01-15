@@ -44,7 +44,7 @@ defmodule SampleTelepathy.DeleteListenerSpec do
 
         case value do
           %NaiveDateTime{} -> 
-            expect(msg_value).to eq(NaiveDateTime.to_iso8601(value))
+            expect(NaiveDateTime.to_iso8601(value)).to have(msg_value)
           _ -> 
             expect(msg_value).to eq(value)
         end      
