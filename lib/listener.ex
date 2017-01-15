@@ -1,8 +1,10 @@
 defmodule Telepathy.Listener do
   require IEx
-  defmacro __using__(_) do
+  defmacro __using__(params) do
+    table_name = Keyword.fetch!(params, :table_name)
+
     quote do
-      @table_name "cities"
+      @table_name unquote(table_name)
       use GenServer
 
       ## Client API
@@ -36,7 +38,7 @@ defmodule Telepathy.Listener do
         {:ok, pg_pid}    = Postgrex.start_link(db_connection)
         {:ok, notif_pid} = Postgrex.Notifications.start_link(db_connection)
 
-        queries = Telepathy.ListenerQueries.eventstream_query table_name: @table_name, trigger_name: trigger_name, channel_name: channel_name
+        queries = Telepathy.ListenerQueries.eventstream_query table_name: @table_name, trigger_name: trigger_name(), channel_name: channel_name()
 
         queries |> Enum.each(fn(query) -> 
           {:ok, _} = Postgrex.query pg_pid, query, []
@@ -47,28 +49,17 @@ defmodule Telepathy.Listener do
         {:ok, %{notif_pid: notif_pid, pg_pid: pg_pid}}
       end
 
-      def handle_info(msg, state) do
-        db_msg = elem(msg, 4)
+      def handle_info(raw_msg, state) do
+        msg = Poison.decode! elem(raw_msg, 4)
 
-        parsed_msg = Poison.decode! db_msg
-
-        GenServer.cast(self, {parsed_msg["type"], parsed_msg})
-
-        {:noreply, state}
-      end
-
-      def handle_cast({"INSERT", msg = %{}}, state) do
-        handle_insert(msg["new_data"], state)
-      end
-
-      def handle_cast({"DELETE", msg = %{}}, state) do
-        handle_delete(msg["old_data"], state)
-        {:noreply, state}
-      end
-
-      def handle_cast({"UPDATE", msg = %{}}, state) do
-        handle_update(msg["old_data"], msg["new_data"], state)
-        {:noreply, state}
+        case msg["type"] do
+          "INSERT" -> 
+            handle_insert(msg["new_data"], state)
+          "DELETE" ->
+            handle_delete(msg["old_data"], state)
+          "UPDATE" -> 
+            handle_update(msg["old_data"], msg["new_data"], state)
+        end
       end
 
       ## Helpers
