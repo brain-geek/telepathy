@@ -10,10 +10,8 @@ defmodule SampleTelepathy.CitiesListenerAgent do
   end
 
   def get_messages_of(type) do
-    Agent.get_and_update(__MODULE__, fn set ->
-      Enum.split_with(set, fn(x) -> 
-        elem(x, 0) == type 
-      end)
+    Agent.get(__MODULE__, fn set ->
+      Enum.filter(set, &( elem(&1, 0) == type ))
     end)
     |> Enum.map(&(elem(&1, 1)))
   end
