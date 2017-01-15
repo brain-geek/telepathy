@@ -1,7 +1,6 @@
 defmodule Telepathy.Listener do
   require IEx
   defmacro __using__(_) do
-    require IEx
     quote do
       @table_name "cities"
       use GenServer
@@ -15,10 +14,25 @@ defmodule Telepathy.Listener do
         GenServer.start_link(__MODULE__, db_connection, [])
       end
 
-      ## Server Callbacks
+      ## Callback API interface
+
+      def handle_update(_old, _new, state) do
+        {:noreply, state}
+      end
+
+      def handle_delete(_old, state) do
+        {:noreply, state}
+      end
+      
+      def handle_insert(_new, state) do
+        {:noreply, state}
+      end
+
+      defoverridable [handle_update: 3, handle_delete: 2, handle_insert: 2]
+
+      ## GenServer Callbacks
 
       def init(db_connection) do
-        # IEx.pry
         {:ok, pg_pid}    = Postgrex.start_link(db_connection)
         {:ok, notif_pid} = Postgrex.Notifications.start_link(db_connection)
 
@@ -56,6 +70,8 @@ defmodule Telepathy.Listener do
         handle_update(msg["old_data"], msg["new_data"], state)
         {:noreply, state}
       end
+
+      ## Helpers
 
       defp trigger_name do
         "notify_" <> @table_name <> "_changes_trg"

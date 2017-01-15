@@ -6,19 +6,19 @@ defmodule Telepathy.ListenerQueriesSpec do
     let :trigger_name, do: "trigger"
     let :channel_name, do: "channel_one"
 
-    let :params, do: [table_name: table_name, trigger_name: trigger_name, channel_name: channel_name]
+    let :params, do: [table_name: table_name(), trigger_name: trigger_name(), channel_name: channel_name()]
 
-    subject do: Enum.reduce(described_module.eventstream_query(params), &(&1 <> &2))
+    subject do: Enum.reduce(described_module().eventstream_query(params()), &(&1 <> &2))
 
     describe "explicit function_name" do
       let :function_name, do: "notify_telepathy_channel_one"
 
       it "is present in create trigger sequence" do
-        expect(subject) |> to(have "EXECUTE PROCEDURE #{function_name}()")
+        expect(subject()) |> to(have "EXECUTE PROCEDURE #{function_name()}()")
       end
 
       it "is present in create function sequence" do
-        expect(subject) |> to(have "CREATE OR REPLACE FUNCTION #{function_name}()")
+        expect(subject()) |> to(have "CREATE OR REPLACE FUNCTION #{function_name()}()")
       end
     end
   end

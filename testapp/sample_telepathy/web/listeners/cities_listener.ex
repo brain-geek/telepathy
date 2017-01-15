@@ -3,7 +3,9 @@ defmodule SampleTelepathy.CitiesListener do
   use Telepathy.Listener, table_name: "cities"
 
   def handle_update(old, new, state) do
+    SampleTelepathy.CitiesListenerAgent.push_message(:update, {old, new})
     
+    {:noreply, state}
   end
 
   def handle_delete(old, state) do

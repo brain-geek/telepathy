@@ -14,6 +14,11 @@ defmodule SampleTelepathy do
       supervisor(SampleTelepathy.Endpoint, []),
 
       worker(SampleTelepathy.CitiesListener, [Application.get_env(:sample_telepathy, SampleTelepathy.Repo)]),
+
+      worker(SampleTelepathy.CitiesDeleteListener, [Application.get_env(:sample_telepathy, SampleTelepathy.Repo)]),
+      worker(SampleTelepathy.CitiesInsertListener, [Application.get_env(:sample_telepathy, SampleTelepathy.Repo)]),
+      worker(SampleTelepathy.CitiesUpdateListener, [Application.get_env(:sample_telepathy, SampleTelepathy.Repo)]),
+
       worker(SampleTelepathy.CitiesListenerAgent, [])
     ]
 

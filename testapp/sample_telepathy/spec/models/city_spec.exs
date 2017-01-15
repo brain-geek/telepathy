@@ -3,14 +3,14 @@ defmodule SampleTelepathy.CitySpec do
   alias SampleTelepathy.City
 
   context "validity" do
-    let :changeset, do: City.changeset(%City{}, attrs)
-    subject do: changeset.valid?
+    let :changeset, do: City.changeset(%City{}, attrs())
+    subject do: changeset().valid?
 
     context "changeset with valid attributes" do
       let :attrs, do: %{country: "some content", name: "some content"}
 
       it "is valid" do
-        is_expected.to be_truthy
+        is_expected().to be_truthy()
       end
     end
 
@@ -18,7 +18,7 @@ defmodule SampleTelepathy.CitySpec do
       let :attrs, do: %{}
 
       it "is invalid" do
-        is_expected.to be_false
+        is_expected().to be_false()
       end
     end
   end
