@@ -44,7 +44,7 @@ defmodule Telepathy.Listener do
           {:ok, _} = Postgrex.query pg_pid, query, []
         end)
 
-        Postgrex.Notifications.listen(notif_pid, "cities")
+        Postgrex.Notifications.listen(notif_pid, channel_name())
 
         {:ok, %{notif_pid: notif_pid, pg_pid: pg_pid}}
       end
@@ -65,7 +65,7 @@ defmodule Telepathy.Listener do
       ## Helpers
 
       defp trigger_name do
-        "notify_" <> @table_name <> "_changes_trg"
+        "notify_" <> @table_name <> "_trg"
       end
 
       defp channel_name do
