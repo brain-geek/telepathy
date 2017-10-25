@@ -1,6 +1,8 @@
 # Telepathy
 
-**TODO: Add description**
+Telepathy project is intended to show that you can easily get database events from PostgreSQL directly to custom Elixir gen_server.
+
+You can see check out usage examples in the `testapp` folder.
 
 ## Installation
 
